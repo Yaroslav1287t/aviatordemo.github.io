@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviator Mobile Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20px; background: #111; color: #fff; }
+    #multiplier { font-size: 64px; margin: 60px 0 30px; color: #0f0; }
+    button { font-size: 24px; padding: 15px 30px; border: none; border-radius: 10px; background: #e91e63; color: #fff; cursor: pointer; }
+    button:active { background: #c2185b; }
+  </style>
+</head>
+<body>
+
+<h1 style="font-size: 32px;">🎮 Aviator Demo</h1>
+<div id="multiplier">1.00x</div>
+<button id="btn">Вывести</button>
+
+<script>
+let multiplier = 1.00;
+let isCashedOut = false;
+let interval;
+
+function startGame() {
+  multiplier = 1.00;
+  isCashedOut = false;
+  document.getElementById('btn').textContent = 'Вывести';
+  interval = setInterval(() => {
+    multiplier += Math.random() * 0.1;
+    document.getElementById('multiplier').textContent = multiplier.toFixed(2) + 'x';
+    if (Math.random() < 0.01) {
+      clearInterval(interval);
+      if (!isCashedOut) {
+        document.getElementById('multiplier').textContent = '💥 Вылет!';
+        document.getElementById('btn').textContent = 'Сыграть снова';
+        isCashedOut = true;
+      }
+    }
+  }, 100);
+}
+
+document.getElementById('btn').onclick = () => {
+  if (isCashedOut) {
+    startGame();
+  } else {
+    isCashedOut = true;
+    clearInterval(interval);
+    alert('Ты вывел по ' + multiplier.toFixed(2) + 'x!');
+    document.getElementById('btn').textContent = 'Сыграть снова';
+  }
+};
+
+startGame();
+</script>
+
+</body>
+</html>
